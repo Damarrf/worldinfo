@@ -92,7 +92,7 @@
     <button class="filter-btn" onclick="filterRegion(this,'Europe')">Eropa</button>
     <button class="filter-btn" onclick="filterRegion(this,'Oceania')">Oseania</button>
   </div>
-  <div id="info-bar">📦 Mode data bawaan — menampilkan 50 negara populer. Data lengkap tersedia saat dihosting online.</div>
+  <div id="info-bar"></div>
   <div id="status"></div>
   <div id="empty"><p>😕 Tidak ada negara ditemukan. Coba kata kunci lain.</p></div>
   <div id="cards-grid"></div>
@@ -108,6 +108,33 @@
   </div>
 </div>
 <script>
+const ID_ALIASES = {
+  "jepang":"japan","tiongkok":"china","cina":"china","belanda":"netherlands","jerman":"germany",
+  "perancis":"france","prancis":"france","inggris":"united kingdom","britania":"united kingdom",
+  "rusia":"russia","mesir":"egypt","arab saudi":"saudi arabia","turki":"turkey","iran":"iran",
+  "irak":"iraq","india":"india","australia":"australia","kanada":"canada","meksiko":"mexico",
+  "brazil":"brazil","brasil":"brazil","argentina":"argentina","spanyol":"spain","italia":"italy",
+  "swiss":"switzerland","swedia":"sweden","norwegia":"norway","finlandia":"finland","denmark":"denmark",
+  "polandia":"poland","austria":"austria","belgia":"belgium","portugis":"portugal","yunani":"greece",
+  "filipina":"philippines","vietnam":"vietnam","kamboja":"cambodia","myanmar":"myanmar","thailand":"thailand",
+  "singapura":"singapore","malaysia":"malaysia","brunei":"brunei","laos":"laos","timor leste":"timor-leste",
+  "korea selatan":"south korea","korea utara":"north korea","taiwan":"taiwan","hongkong":"hong kong",
+  "pakistan":"pakistan","bangladesh":"bangladesh","srilanka":"sri lanka","nepal":"nepal","bhutan":"bhutan",
+  "afganistan":"afghanistan","uzbekistan":"uzbekistan","kazakhstan":"kazakhstan","azerbaijan":"azerbaijan",
+  "nigeria":"nigeria","ethiopia":"ethiopia","kenya":"kenya","tanzania":"tanzania","ghana":"ghana",
+  "kamerun":"cameroon","mozambik":"mozambique","madagaskar":"madagascar","zambia":"zambia",
+  "senegal":"senegal","zimbabwe":"zimbabwe","sudan":"sudan","maroko":"morocco","aljazair":"algeria",
+  "tunisia":"tunisia","libya":"libya","pantai gading":"ivory coast","kongo":"congo",
+  "selandia baru":"new zealand","papua nugini":"papua new guinea","fiji":"fiji",
+  "kuba":"cuba","kolombia":"colombia","peru":"peru","chili":"chile","venezuela":"venezuela",
+  "ekuador":"ecuador","bolivia":"bolivia","paraguay":"paraguay","uruguay":"uruguay",
+  "jamaika":"jamaica","haiti":"haiti","kosta rika":"costa rica","guatemala":"guatemala",
+  "honduras":"honduras","nikaragua":"nicaragua","panama":"panama","el salvador":"el salvador",
+  "israel":"israel","palestina":"palestine","yordania":"jordan","suriah":"syria","lebanon":"lebanon",
+  "yaman":"yemen","oman":"oman","uni emirat arab":"united arab emirates","kuwait":"kuwait",
+  "qatar":"qatar","bahrain":"bahrain","ibu kota":"capital"
+};
+
 const DATA = [
   {name:"Indonesia",official:"Republic of Indonesia",flag:"https://flagcdn.com/w320/id.png",capital:"Jakarta",population:273523615,region:"Asia",subregion:"South-Eastern Asia",area:1904569,languages:"Indonesian",currency:"Indonesian rupiah (Rp)",timezone:"UTC+07:00",code:"ID"},
   {name:"Malaysia",official:"Malaysia",flag:"https://flagcdn.com/w320/my.png",capital:"Kuala Lumpur",population:32365998,region:"Asia",subregion:"South-Eastern Asia",area:329847,languages:"Malay",currency:"Malaysian ringgit (RM)",timezone:"UTC+08:00",code:"MY"},
@@ -177,7 +204,6 @@ async function tryFetchAPI() {
     const res = await fetch('https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region,subregion,area,languages,currencies,timezones,cca2', { signal: ctrl.signal });
     if (!res.ok) return;
     const raw = await res.json();
-    // Konversi ke format flat kita
     window.LIVE_DATA = raw.map(c => ({
       name: c.name.common,
       official: c.name.official,
@@ -208,10 +234,18 @@ function getActiveData() {
 }
 
 function doSearch() {
-  const q = document.getElementById('search-input').value.trim().toLowerCase();
+  const raw = document.getElementById('search-input').value.trim().toLowerCase();
+  const q = ID_ALIASES[raw] || raw;
   const src = window.LIVE_DATA || DATA;
   let res = q
-    ? src.filter(c => c.name.toLowerCase().includes(q) || c.official.toLowerCase().includes(q) || c.capital.toLowerCase().includes(q))
+    ? src.filter(c =>
+        c.name.toLowerCase().includes(q) ||
+        c.official.toLowerCase().includes(q) ||
+        c.capital.toLowerCase().includes(q) ||
+        c.name.toLowerCase().includes(raw) ||
+        c.official.toLowerCase().includes(raw) ||
+        c.capital.toLowerCase().includes(raw)
+      )
     : src;
   if (currentRegion) res = res.filter(c => c.region === currentRegion);
   renderCards(res);
