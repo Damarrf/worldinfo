@@ -6,187 +6,83 @@
   <title>WorldInfo – Aplikasi Informasi Negara</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f0f4f8;
-      color: #1a202c;
-      min-height: 100vh;
-    }
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; color: #1a202c; min-height: 100vh; }
     header {
       background: linear-gradient(135deg, #1e3a5f, #2563eb);
-      color: white;
-      padding: 2rem 1.5rem 2.5rem;
-      text-align: center;
+      color: white; padding: 2rem 1.5rem 2.5rem; text-align: center;
     }
-    header h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; }
+    header h1 { font-size: 2rem; font-weight: 700; }
     header p  { margin-top: 0.4rem; font-size: 0.95rem; opacity: 0.8; }
-
     .search-bar {
-      display: flex;
-      gap: 0.5rem;
-      max-width: 600px;
-      margin: -1.25rem auto 0;
-      padding: 0 1rem;
-      position: relative;
-      z-index: 10;
+      display: flex; gap: 0.5rem; max-width: 600px;
+      margin: -1.25rem auto 0; padding: 0 1rem; position: relative; z-index: 10;
     }
     .search-bar input {
-      flex: 1;
-      padding: 0.75rem 1rem;
-      border-radius: 10px;
-      border: none;
-      font-size: 1rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      outline: none;
+      flex: 1; padding: 0.75rem 1rem; border-radius: 10px; border: none;
+      font-size: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); outline: none;
     }
     .search-bar input:focus { box-shadow: 0 4px 16px rgba(37,99,235,0.4); }
     .search-bar button {
-      padding: 0.75rem 1.25rem;
-      background: #f59e0b;
-      color: white;
-      font-size: 1rem;
-      font-weight: 600;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      transition: background 0.2s;
+      padding: 0.75rem 1.25rem; background: #f59e0b; color: white;
+      font-size: 1rem; font-weight: 600; border: none; border-radius: 10px;
+      cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: background 0.2s;
     }
     .search-bar button:hover { background: #d97706; }
-
     main { max-width: 1100px; margin: 2.5rem auto 3rem; padding: 0 1rem; }
-
-    #filter-bar {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 1.5rem;
-      justify-content: center;
-    }
+    #filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; justify-content: center; }
     .filter-btn {
-      padding: 0.4rem 1rem;
-      border-radius: 999px;
-      border: 1.5px solid #cbd5e1;
-      background: white;
-      color: #475569;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all 0.15s;
+      padding: 0.4rem 1rem; border-radius: 999px; border: 1.5px solid #cbd5e1;
+      background: white; color: #475569; font-size: 0.85rem; cursor: pointer; transition: all 0.15s;
     }
-    .filter-btn:hover, .filter-btn.active {
-      background: #2563eb;
-      color: white;
-      border-color: #2563eb;
-    }
-
+    .filter-btn:hover, .filter-btn.active { background: #2563eb; color: white; border-color: #2563eb; }
     #status { text-align: center; color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem; min-height: 1.4rem; }
-
+    #info-bar {
+      background: #dbeafe; border: 1px solid #93c5fd; border-radius: 10px;
+      padding: 0.75rem 1rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: #1e40af;
+      text-align: center;
+    }
     #cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1.25rem;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem;
     }
-
     .card {
-      background: white;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      transition: transform 0.2s, box-shadow 0.2s;
-      cursor: pointer;
+      background: white; border-radius: 14px; overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;
     }
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.14);
-    }
-    .card img.flag {
-      width: 100%;
-      height: 140px;
-      object-fit: cover;
-      border-bottom: 1px solid #e2e8f0;
-    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.14); }
+    .flag-wrap { width: 100%; height: 130px; overflow: hidden; border-bottom: 1px solid #e2e8f0; background: #e2e8f0; display: flex; align-items: center; justify-content: center; }
+    .flag-wrap img { width: 100%; height: 100%; object-fit: cover; }
     .card-body { padding: 0.9rem 1rem 1rem; }
-    .card-body h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; }
-    .card-row { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: #475569; margin-bottom: 0.25rem; }
-    .card-row span.label { font-weight: 600; color: #1a202c; min-width: 80px; }
-    .badge {
-      display: inline-block;
-      padding: 0.2rem 0.6rem;
-      border-radius: 999px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      background: #dbeafe;
-      color: #1e40af;
-      margin-top: 0.5rem;
-    }
-
-    /* Modal */
+    .card-body h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .card-row { display: flex; gap: 0.4rem; font-size: 0.78rem; color: #475569; margin-bottom: 0.2rem; }
+    .card-row span.label { font-weight: 600; color: #1a202c; min-width: 72px; }
+    .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; font-weight: 600; background: #dbeafe; color: #1e40af; margin-top: 0.4rem; }
     #modal-overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      z-index: 100; align-items: center; justify-content: center; padding: 1rem;
     }
     #modal-overlay.open { display: flex; }
-    #modal {
-      background: white;
-      border-radius: 16px;
-      max-width: 560px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    }
-    #modal img.flag-lg {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 16px 16px 0 0;
-    }
+    #modal { background: white; border-radius: 16px; max-width: 520px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .modal-flag-wrap { width: 100%; height: 180px; background: #e2e8f0; border-radius: 16px 16px 0 0; overflow: hidden; }
+    .modal-flag-wrap img { width: 100%; height: 100%; object-fit: cover; }
     #modal-body { padding: 1.5rem; }
-    #modal-body h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 1rem; }
+    #modal-body h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; }
     .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-    .detail-item label { display: block; font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
-    .detail-item span  { font-size: 0.95rem; font-weight: 600; color: #1a202c; }
-    .close-btn {
-      display: block; width: 100%; margin-top: 1.25rem;
-      padding: 0.6rem; background: #f1f5f9; border: none;
-      border-radius: 8px; cursor: pointer; font-size: 0.9rem;
-      color: #475569; font-weight: 600;
-    }
+    .detail-item label { display: block; font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
+    .detail-item span  { font-size: 0.9rem; font-weight: 600; color: #1a202c; }
+    .close-btn { display: block; width: 100%; margin-top: 1.25rem; padding: 0.6rem; background: #f1f5f9; border: none; border-radius: 8px; cursor: pointer; font-size: 0.9rem; color: #475569; font-weight: 600; }
     .close-btn:hover { background: #e2e8f0; }
-
-    #loader { text-align: center; padding: 2rem; display: none; }
-    .spinner {
-      width: 36px; height: 36px;
-      border: 4px solid #e2e8f0;
-      border-top-color: #2563eb;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      margin: 0 auto;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    #empty { text-align: center; padding: 3rem 1rem; display: none; }
-    #empty img { width: 80px; opacity: 0.3; }
-    #empty p { margin-top: 1rem; color: #94a3b8; font-size: 0.95rem; }
+    #empty { text-align: center; padding: 3rem 1rem; display: none; color: #94a3b8; }
   </style>
 </head>
 <body>
-
 <header>
   <h1>🌍 WorldInfo</h1>
   <p>Jelajahi informasi lengkap dari seluruh negara di dunia</p>
 </header>
-
 <div class="search-bar">
   <input id="search-input" type="text" placeholder="Cari nama negara... (contoh: Indonesia, Japan, Brazil)" />
   <button onclick="doSearch()">Cari</button>
 </div>
-
 <main>
   <div id="filter-bar">
     <button class="filter-btn active" onclick="filterRegion(this,'')">Semua</button>
@@ -196,19 +92,14 @@
     <button class="filter-btn" onclick="filterRegion(this,'Europe')">Eropa</button>
     <button class="filter-btn" onclick="filterRegion(this,'Oceania')">Oseania</button>
   </div>
-
+  <div id="info-bar">📦 Mode data bawaan — menampilkan 50 negara populer. Data lengkap tersedia saat dihosting online.</div>
   <div id="status"></div>
-  <div id="loader"><div class="spinner"></div><p style="margin-top:0.75rem;color:#94a3b8;">Memuat data...</p></div>
-  <div id="empty">
-    <p>😕 Tidak ada negara ditemukan. Coba kata kunci lain.</p>
-  </div>
+  <div id="empty"><p>😕 Tidak ada negara ditemukan. Coba kata kunci lain.</p></div>
   <div id="cards-grid"></div>
 </main>
-
-<!-- Modal -->
 <div id="modal-overlay" onclick="closeModal(event)">
   <div id="modal">
-    <img class="flag-lg" id="modal-flag" src="" alt="" />
+    <div class="modal-flag-wrap"><img id="modal-flag" src="" alt="" /></div>
     <div id="modal-body">
       <h2 id="modal-name"></h2>
       <div class="detail-grid" id="modal-details"></div>
@@ -216,103 +107,163 @@
     </div>
   </div>
 </div>
-
 <script>
-let allCountries = [];
+const DATA = [
+  {name:"Indonesia",official:"Republic of Indonesia",flag:"https://flagcdn.com/w320/id.png",capital:"Jakarta",population:273523615,region:"Asia",subregion:"South-Eastern Asia",area:1904569,languages:"Indonesian",currency:"Indonesian rupiah (Rp)",timezone:"UTC+07:00",code:"ID"},
+  {name:"Malaysia",official:"Malaysia",flag:"https://flagcdn.com/w320/my.png",capital:"Kuala Lumpur",population:32365998,region:"Asia",subregion:"South-Eastern Asia",area:329847,languages:"Malay",currency:"Malaysian ringgit (RM)",timezone:"UTC+08:00",code:"MY"},
+  {name:"Singapore",official:"Republic of Singapore",flag:"https://flagcdn.com/w320/sg.png",capital:"Singapore",population:5685807,region:"Asia",subregion:"South-Eastern Asia",area:710,languages:"English, Malay, Chinese, Tamil",currency:"Singapore dollar ($)",timezone:"UTC+08:00",code:"SG"},
+  {name:"Thailand",official:"Kingdom of Thailand",flag:"https://flagcdn.com/w320/th.png",capital:"Bangkok",population:69799978,region:"Asia",subregion:"South-Eastern Asia",area:513120,languages:"Thai",currency:"Thai baht (฿)",timezone:"UTC+07:00",code:"TH"},
+  {name:"Philippines",official:"Republic of the Philippines",flag:"https://flagcdn.com/w320/ph.png",capital:"Manila",population:109581085,region:"Asia",subregion:"South-Eastern Asia",area:342353,languages:"English, Filipino",currency:"Philippine peso (₱)",timezone:"UTC+08:00",code:"PH"},
+  {name:"Vietnam",official:"Socialist Republic of Vietnam",flag:"https://flagcdn.com/w320/vn.png",capital:"Hanoi",population:97338583,region:"Asia",subregion:"South-Eastern Asia",area:331212,languages:"Vietnamese",currency:"Vietnamese đồng (₫)",timezone:"UTC+07:00",code:"VN"},
+  {name:"Myanmar",official:"Republic of the Union of Myanmar",flag:"https://flagcdn.com/w320/mm.png",capital:"Naypyidaw",population:54409800,region:"Asia",subregion:"South-Eastern Asia",area:676578,languages:"Burmese",currency:"Burmese kyat (K)",timezone:"UTC+06:30",code:"MM"},
+  {name:"Cambodia",official:"Kingdom of Cambodia",flag:"https://flagcdn.com/w320/kh.png",capital:"Phnom Penh",population:16718971,region:"Asia",subregion:"South-Eastern Asia",area:181035,languages:"Khmer",currency:"Cambodian riel (៛)",timezone:"UTC+07:00",code:"KH"},
+  {name:"Japan",official:"Japan",flag:"https://flagcdn.com/w320/jp.png",capital:"Tokyo",population:125836021,region:"Asia",subregion:"Eastern Asia",area:377930,languages:"Japanese",currency:"Japanese yen (¥)",timezone:"UTC+09:00",code:"JP"},
+  {name:"China",official:"People's Republic of China",flag:"https://flagcdn.com/w320/cn.png",capital:"Beijing",population:1402112000,region:"Asia",subregion:"Eastern Asia",area:9706961,languages:"Chinese",currency:"Chinese yuan (¥)",timezone:"UTC+08:00",code:"CN"},
+  {name:"South Korea",official:"Republic of Korea",flag:"https://flagcdn.com/w320/kr.png",capital:"Seoul",population:51780579,region:"Asia",subregion:"Eastern Asia",area:100210,languages:"Korean",currency:"South Korean won (₩)",timezone:"UTC+09:00",code:"KR"},
+  {name:"India",official:"Republic of India",flag:"https://flagcdn.com/w320/in.png",capital:"New Delhi",population:1380004385,region:"Asia",subregion:"Southern Asia",area:3287590,languages:"English, Hindi",currency:"Indian rupee (₹)",timezone:"UTC+05:30",code:"IN"},
+  {name:"Pakistan",official:"Islamic Republic of Pakistan",flag:"https://flagcdn.com/w320/pk.png",capital:"Islamabad",population:220892340,region:"Asia",subregion:"Southern Asia",area:881913,languages:"English, Urdu",currency:"Pakistani rupee (₨)",timezone:"UTC+05:00",code:"PK"},
+  {name:"Bangladesh",official:"People's Republic of Bangladesh",flag:"https://flagcdn.com/w320/bd.png",capital:"Dhaka",population:164689383,region:"Asia",subregion:"Southern Asia",area:147570,languages:"Bengali",currency:"Bangladeshi taka (৳)",timezone:"UTC+06:00",code:"BD"},
+  {name:"Saudi Arabia",official:"Kingdom of Saudi Arabia",flag:"https://flagcdn.com/w320/sa.png",capital:"Riyadh",population:34813871,region:"Asia",subregion:"Western Asia",area:2149690,languages:"Arabic",currency:"Saudi riyal (﷼)",timezone:"UTC+03:00",code:"SA"},
+  {name:"United Arab Emirates",official:"United Arab Emirates",flag:"https://flagcdn.com/w320/ae.png",capital:"Abu Dhabi",population:9890402,region:"Asia",subregion:"Western Asia",area:83600,languages:"Arabic",currency:"UAE dirham (د.إ)",timezone:"UTC+04:00",code:"AE"},
+  {name:"Turkey",official:"Republic of Turkey",flag:"https://flagcdn.com/w320/tr.png",capital:"Ankara",population:84339067,region:"Asia",subregion:"Western Asia",area:783562,languages:"Turkish",currency:"Turkish lira (₺)",timezone:"UTC+03:00",code:"TR"},
+  {name:"Iran",official:"Islamic Republic of Iran",flag:"https://flagcdn.com/w320/ir.png",capital:"Tehran",population:83992953,region:"Asia",subregion:"Southern Asia",area:1648195,languages:"Persian",currency:"Iranian rial (﷼)",timezone:"UTC+03:30",code:"IR"},
+  {name:"Iraq",official:"Republic of Iraq",flag:"https://flagcdn.com/w320/iq.png",capital:"Baghdad",population:40222493,region:"Asia",subregion:"Western Asia",area:438317,languages:"Arabic, Kurdish",currency:"Iraqi dinar (ع.د)",timezone:"UTC+03:00",code:"IQ"},
+  {name:"United States",official:"United States of America",flag:"https://flagcdn.com/w320/us.png",capital:"Washington D.C.",population:329484123,region:"Americas",subregion:"Northern America",area:9372610,languages:"English",currency:"US dollar ($)",timezone:"UTC-05:00",code:"US"},
+  {name:"Brazil",official:"Federative Republic of Brazil",flag:"https://flagcdn.com/w320/br.png",capital:"Brasília",population:212559409,region:"Americas",subregion:"South America",area:8515767,languages:"Portuguese",currency:"Brazilian real (R$)",timezone:"UTC-03:00",code:"BR"},
+  {name:"Canada",official:"Canada",flag:"https://flagcdn.com/w320/ca.png",capital:"Ottawa",population:38005238,region:"Americas",subregion:"Northern America",area:9984670,languages:"English, French",currency:"Canadian dollar ($)",timezone:"UTC-05:00",code:"CA"},
+  {name:"Mexico",official:"United Mexican States",flag:"https://flagcdn.com/w320/mx.png",capital:"Mexico City",population:128932753,region:"Americas",subregion:"North America",area:1964375,languages:"Spanish",currency:"Mexican peso ($)",timezone:"UTC-06:00",code:"MX"},
+  {name:"Argentina",official:"Argentine Republic",flag:"https://flagcdn.com/w320/ar.png",capital:"Buenos Aires",population:45376763,region:"Americas",subregion:"South America",area:2780400,languages:"Spanish",currency:"Argentine peso ($)",timezone:"UTC-03:00",code:"AR"},
+  {name:"Colombia",official:"Republic of Colombia",flag:"https://flagcdn.com/w320/co.png",capital:"Bogotá",population:50882884,region:"Americas",subregion:"South America",area:1141748,languages:"Spanish",currency:"Colombian peso ($)",timezone:"UTC-05:00",code:"CO"},
+  {name:"Chile",official:"Republic of Chile",flag:"https://flagcdn.com/w320/cl.png",capital:"Santiago",population:19116209,region:"Americas",subregion:"South America",area:756102,languages:"Spanish",currency:"Chilean peso ($)",timezone:"UTC-04:00",code:"CL"},
+  {name:"Peru",official:"Republic of Peru",flag:"https://flagcdn.com/w320/pe.png",capital:"Lima",population:32971846,region:"Americas",subregion:"South America",area:1285216,languages:"Spanish",currency:"Peruvian sol (S/.)",timezone:"UTC-05:00",code:"PE"},
+  {name:"Germany",official:"Federal Republic of Germany",flag:"https://flagcdn.com/w320/de.png",capital:"Berlin",population:83240525,region:"Europe",subregion:"Western Europe",area:357114,languages:"German",currency:"Euro (€)",timezone:"UTC+01:00",code:"DE"},
+  {name:"France",official:"French Republic",flag:"https://flagcdn.com/w320/fr.png",capital:"Paris",population:67391582,region:"Europe",subregion:"Western Europe",area:551695,languages:"French",currency:"Euro (€)",timezone:"UTC+01:00",code:"FR"},
+  {name:"United Kingdom",official:"United Kingdom of Great Britain and Northern Ireland",flag:"https://flagcdn.com/w320/gb.png",capital:"London",population:67215293,region:"Europe",subregion:"Northern Europe",area:242900,languages:"English",currency:"British pound (£)",timezone:"UTC+00:00",code:"GB"},
+  {name:"Italy",official:"Italian Republic",flag:"https://flagcdn.com/w320/it.png",capital:"Rome",population:59554023,region:"Europe",subregion:"Southern Europe",area:301336,languages:"Italian",currency:"Euro (€)",timezone:"UTC+01:00",code:"IT"},
+  {name:"Spain",official:"Kingdom of Spain",flag:"https://flagcdn.com/w320/es.png",capital:"Madrid",population:47351567,region:"Europe",subregion:"Southern Europe",area:505990,languages:"Spanish",currency:"Euro (€)",timezone:"UTC+01:00",code:"ES"},
+  {name:"Netherlands",official:"Kingdom of the Netherlands",flag:"https://flagcdn.com/w320/nl.png",capital:"Amsterdam",population:17441139,region:"Europe",subregion:"Western Europe",area:41543,languages:"Dutch",currency:"Euro (€)",timezone:"UTC+01:00",code:"NL"},
+  {name:"Sweden",official:"Kingdom of Sweden",flag:"https://flagcdn.com/w320/se.png",capital:"Stockholm",population:10353442,region:"Europe",subregion:"Northern Europe",area:450295,languages:"Swedish",currency:"Swedish krona (kr)",timezone:"UTC+01:00",code:"SE"},
+  {name:"Switzerland",official:"Swiss Confederation",flag:"https://flagcdn.com/w320/ch.png",capital:"Bern",population:8654622,region:"Europe",subregion:"Western Europe",area:41285,languages:"German, French, Italian",currency:"Swiss franc (Fr.)",timezone:"UTC+01:00",code:"CH"},
+  {name:"Russia",official:"Russian Federation",flag:"https://flagcdn.com/w320/ru.png",capital:"Moscow",population:144104080,region:"Europe",subregion:"Eastern Europe",area:17098242,languages:"Russian",currency:"Russian ruble (₽)",timezone:"UTC+03:00",code:"RU"},
+  {name:"Poland",official:"Republic of Poland",flag:"https://flagcdn.com/w320/pl.png",capital:"Warsaw",population:37950802,region:"Europe",subregion:"Central Europe",area:312679,languages:"Polish",currency:"Polish złoty (zł)",timezone:"UTC+01:00",code:"PL"},
+  {name:"Portugal",official:"Portuguese Republic",flag:"https://flagcdn.com/w320/pt.png",capital:"Lisbon",population:10305564,region:"Europe",subregion:"Southern Europe",area:92212,languages:"Portuguese",currency:"Euro (€)",timezone:"UTC+00:00",code:"PT"},
+  {name:"Nigeria",official:"Federal Republic of Nigeria",flag:"https://flagcdn.com/w320/ng.png",capital:"Abuja",population:206139587,region:"Africa",subregion:"Western Africa",area:923768,languages:"English",currency:"Nigerian naira (₦)",timezone:"UTC+01:00",code:"NG"},
+  {name:"Egypt",official:"Arab Republic of Egypt",flag:"https://flagcdn.com/w320/eg.png",capital:"Cairo",population:102334403,region:"Africa",subregion:"Northern Africa",area:1002450,languages:"Arabic",currency:"Egyptian pound (£)",timezone:"UTC+02:00",code:"EG"},
+  {name:"South Africa",official:"Republic of South Africa",flag:"https://flagcdn.com/w320/za.png",capital:"Pretoria",population:59308690,region:"Africa",subregion:"Southern Africa",area:1221037,languages:"Afrikaans, English, Zulu, Xhosa",currency:"South African rand (R)",timezone:"UTC+02:00",code:"ZA"},
+  {name:"Kenya",official:"Republic of Kenya",flag:"https://flagcdn.com/w320/ke.png",capital:"Nairobi",population:53771296,region:"Africa",subregion:"Eastern Africa",area:580367,languages:"English, Swahili",currency:"Kenyan shilling (Ksh)",timezone:"UTC+03:00",code:"KE"},
+  {name:"Ethiopia",official:"Federal Democratic Republic of Ethiopia",flag:"https://flagcdn.com/w320/et.png",capital:"Addis Ababa",population:114963583,region:"Africa",subregion:"Eastern Africa",area:1104300,languages:"Amharic",currency:"Ethiopian birr (Br)",timezone:"UTC+03:00",code:"ET"},
+  {name:"Ghana",official:"Republic of Ghana",flag:"https://flagcdn.com/w320/gh.png",capital:"Accra",population:31072945,region:"Africa",subregion:"Western Africa",area:238533,languages:"English",currency:"Ghanaian cedi (₵)",timezone:"UTC+00:00",code:"GH"},
+  {name:"Morocco",official:"Kingdom of Morocco",flag:"https://flagcdn.com/w320/ma.png",capital:"Rabat",population:36910558,region:"Africa",subregion:"Northern Africa",area:446550,languages:"Arabic, Berber",currency:"Moroccan dirham (د.م.)",timezone:"UTC+01:00",code:"MA"},
+  {name:"Tanzania",official:"United Republic of Tanzania",flag:"https://flagcdn.com/w320/tz.png",capital:"Dodoma",population:59734213,region:"Africa",subregion:"Eastern Africa",area:945087,languages:"English, Swahili",currency:"Tanzanian shilling (Sh)",timezone:"UTC+03:00",code:"TZ"},
+  {name:"Australia",official:"Commonwealth of Australia",flag:"https://flagcdn.com/w320/au.png",capital:"Canberra",population:25687041,region:"Oceania",subregion:"Australia and New Zealand",area:7692024,languages:"English",currency:"Australian dollar ($)",timezone:"UTC+10:00",code:"AU"},
+  {name:"New Zealand",official:"New Zealand",flag:"https://flagcdn.com/w320/nz.png",capital:"Wellington",population:5084300,region:"Oceania",subregion:"Australia and New Zealand",area:270467,languages:"English, Māori",currency:"New Zealand dollar ($)",timezone:"UTC+12:00",code:"NZ"},
+  {name:"Papua New Guinea",official:"Independent State of Papua New Guinea",flag:"https://flagcdn.com/w320/pg.png",capital:"Port Moresby",population:8947024,region:"Oceania",subregion:"Melanesia",area:462840,languages:"English, Tok Pisin",currency:"Papua New Guinean kina (K)",timezone:"UTC+10:00",code:"PG"},
+  {name:"Fiji",official:"Republic of Fiji",flag:"https://flagcdn.com/w320/fj.png",capital:"Suva",population:896444,region:"Oceania",subregion:"Melanesia",area:18272,languages:"English, Fijian, Hindi",currency:"Fijian dollar ($)",timezone:"UTC+12:00",code:"FJ"},
+];
+
+DATA.sort((a,b) => a.name.localeCompare(b.name));
+
 let currentRegion = '';
 
-async function loadAll() {
-  showLoader(true);
+function init() {
+  renderCards(DATA);
+  // Coba juga fetch API di background, kalau berhasil update data
+  tryFetchAPI();
+}
+
+async function tryFetchAPI() {
   try {
-    const res = await fetch('https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region,subregion,area,languages,currencies,timezones,cca2');
-    allCountries = await res.json();
-    allCountries.sort((a,b) => a.name.common.localeCompare(b.name.common));
-    renderCards(allCountries);
+    const ctrl = new AbortController();
+    setTimeout(() => ctrl.abort(), 6000);
+    const res = await fetch('https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region,subregion,area,languages,currencies,timezones,cca2', { signal: ctrl.signal });
+    if (!res.ok) return;
+    const raw = await res.json();
+    // Konversi ke format flat kita
+    window.LIVE_DATA = raw.map(c => ({
+      name: c.name.common,
+      official: c.name.official,
+      flag: c.flags?.svg || c.flags?.png || '',
+      capital: c.capital?.[0] || '—',
+      population: c.population || 0,
+      region: c.region || '',
+      subregion: c.subregion || '',
+      area: c.area || 0,
+      languages: c.languages ? Object.values(c.languages).join(', ') : '—',
+      currency: c.currencies ? Object.values(c.currencies).map(x=>`${x.name} (${x.symbol||''})`).join(', ') : '—',
+      timezone: c.timezones?.[0] || '—',
+      code: c.cca2 || '',
+    }));
+    window.LIVE_DATA.sort((a,b) => a.name.localeCompare(b.name));
+    document.getElementById('info-bar').innerHTML = '✅ <b>Data live berhasil dimuat!</b> Menampilkan ' + window.LIVE_DATA.length + ' negara dari REST Countries API.';
+    document.getElementById('info-bar').style.background = '#dcfce7';
+    document.getElementById('info-bar').style.borderColor = '#86efac';
+    document.getElementById('info-bar').style.color = '#166534';
+    renderCards(getActiveData());
   } catch(e) {
-    setStatus('⚠️ Gagal memuat data. Periksa koneksi internet Anda.');
+    // Tetap pakai data bawaan, tidak apa-apa
   }
-  showLoader(false);
 }
 
-async function doSearch() {
-  const q = document.getElementById('search-input').value.trim();
-  if (!q) { renderCards(filterByRegion(allCountries)); return; }
-  showLoader(true);
-  try {
-    const res = await fetch(`https://restcountries.com/v3.1/name/${encodeURIComponent(q)}?fields=name,flags,capital,population,region,subregion,area,languages,currencies,timezones,cca2`);
-    if (!res.ok) throw new Error();
-    let data = await res.json();
-    if (currentRegion) data = data.filter(c => c.region === currentRegion);
-    renderCards(data);
-  } catch {
-    renderCards([]);
-  }
-  showLoader(false);
+function getActiveData() {
+  const src = window.LIVE_DATA || DATA;
+  return currentRegion ? src.filter(c => c.region === currentRegion) : src;
 }
 
-function filterByRegion(list) {
-  return currentRegion ? list.filter(c => c.region === currentRegion) : list;
+function doSearch() {
+  const q = document.getElementById('search-input').value.trim().toLowerCase();
+  const src = window.LIVE_DATA || DATA;
+  let res = q
+    ? src.filter(c => c.name.toLowerCase().includes(q) || c.official.toLowerCase().includes(q) || c.capital.toLowerCase().includes(q))
+    : src;
+  if (currentRegion) res = res.filter(c => c.region === currentRegion);
+  renderCards(res);
 }
 
 function filterRegion(btn, region) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   currentRegion = region;
-  const q = document.getElementById('search-input').value.trim();
-  if (!q) renderCards(filterByRegion(allCountries));
-  else doSearch();
+  doSearch();
 }
 
 function renderCards(list) {
   const grid = document.getElementById('cards-grid');
   const empty = document.getElementById('empty');
   grid.innerHTML = '';
-  if (!list || list.length === 0) {
-    empty.style.display = 'block';
-    setStatus('');
-    return;
-  }
+  if (!list || list.length === 0) { empty.style.display = 'block'; setStatus(''); return; }
   empty.style.display = 'none';
-  const shown = list.slice(0, 60);
-  setStatus(`Menampilkan ${shown.length} dari ${list.length} negara`);
+  const shown = list.slice(0, 80);
+  setStatus('Menampilkan ' + shown.length + ' dari ' + list.length + ' negara');
   shown.forEach(c => {
-    const cap = c.capital?.[0] || '—';
-    const pop = c.population?.toLocaleString('id-ID') || '—';
     const card = document.createElement('div');
     card.className = 'card';
-    card.innerHTML = `
-      <img class="flag" src="${c.flags?.svg || c.flags?.png || ''}" alt="Bendera ${c.name.common}" loading="lazy" />
-      <div class="card-body">
-        <h3>${c.name.common}</h3>
-        <div class="card-row"><span class="label">🏛 Ibu Kota</span>${cap}</div>
-        <div class="card-row"><span class="label">👥 Populasi</span>${pop}</div>
-        <div class="card-row"><span class="label">🗺 Wilayah</span>${c.region || '—'}</div>
-        <span class="badge">${c.cca2 || ''}</span>
-      </div>`;
+    card.innerHTML =
+      '<div class="flag-wrap"><img src="' + c.flag + '" alt="Bendera ' + c.name + '" loading="lazy" onerror="this.parentElement.innerHTML=\'🏳\'" /></div>' +
+      '<div class="card-body">' +
+        '<h3>' + c.name + '</h3>' +
+        '<div class="card-row"><span class="label">🏛 Ibu Kota</span>' + c.capital + '</div>' +
+        '<div class="card-row"><span class="label">👥 Populasi</span>' + c.population.toLocaleString('id-ID') + '</div>' +
+        '<div class="card-row"><span class="label">🗺 Wilayah</span>' + c.region + '</div>' +
+        '<span class="badge">' + c.code + '</span>' +
+      '</div>';
     card.addEventListener('click', () => openModal(c));
     grid.appendChild(card);
   });
 }
 
 function openModal(c) {
-  document.getElementById('modal-flag').src = c.flags?.svg || c.flags?.png || '';
-  document.getElementById('modal-flag').alt = 'Bendera ' + c.name.common;
-  document.getElementById('modal-name').textContent = c.name.common + (c.name.official !== c.name.common ? ` (${c.name.official})` : '');
-  const langs = c.languages ? Object.values(c.languages).join(', ') : '—';
-  const curr  = c.currencies ? Object.values(c.currencies).map(x => `${x.name} (${x.symbol || '?'})`).join(', ') : '—';
-  const area  = c.area ? c.area.toLocaleString('id-ID') + ' km²' : '—';
-  const tz    = c.timezones?.[0] || '—';
-  const sub   = c.subregion || '—';
-  document.getElementById('modal-details').innerHTML = `
-    <div class="detail-item"><label>Ibu Kota</label><span>${c.capital?.[0] || '—'}</span></div>
-    <div class="detail-item"><label>Populasi</label><span>${c.population?.toLocaleString('id-ID') || '—'}</span></div>
-    <div class="detail-item"><label>Wilayah</label><span>${c.region || '—'}</span></div>
-    <div class="detail-item"><label>Sub-wilayah</label><span>${sub}</span></div>
-    <div class="detail-item"><label>Luas Area</label><span>${area}</span></div>
-    <div class="detail-item"><label>Zona Waktu</label><span>${tz}</span></div>
-    <div class="detail-item"><label>Bahasa</label><span>${langs}</span></div>
-    <div class="detail-item"><label>Mata Uang</label><span>${curr}</span></div>
-  `;
+  document.getElementById('modal-flag').src = c.flag;
+  document.getElementById('modal-flag').alt = 'Bendera ' + c.name;
+  document.getElementById('modal-name').textContent = c.name + (c.official !== c.name ? ' (' + c.official + ')' : '');
+  document.getElementById('modal-details').innerHTML =
+    '<div class="detail-item"><label>Ibu Kota</label><span>' + c.capital + '</span></div>' +
+    '<div class="detail-item"><label>Populasi</label><span>' + c.population.toLocaleString('id-ID') + '</span></div>' +
+    '<div class="detail-item"><label>Wilayah</label><span>' + c.region + '</span></div>' +
+    '<div class="detail-item"><label>Sub-wilayah</label><span>' + c.subregion + '</span></div>' +
+    '<div class="detail-item"><label>Luas Area</label><span>' + c.area.toLocaleString('id-ID') + ' km²</span></div>' +
+    '<div class="detail-item"><label>Zona Waktu</label><span>' + c.timezone + '</span></div>' +
+    '<div class="detail-item"><label>Bahasa</label><span>' + c.languages + '</span></div>' +
+    '<div class="detail-item"><label>Mata Uang</label><span>' + c.currency + '</span></div>';
   document.getElementById('modal-overlay').classList.add('open');
 }
 
@@ -321,12 +272,10 @@ function closeModal(e) {
     document.getElementById('modal-overlay').classList.remove('open');
 }
 
-function showLoader(v) { document.getElementById('loader').style.display = v ? 'block' : 'none'; }
 function setStatus(msg) { document.getElementById('status').textContent = msg; }
 
 document.getElementById('search-input').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
-
-loadAll();
+init();
 </script>
 </body>
 </html>
