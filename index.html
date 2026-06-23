@@ -167,7 +167,6 @@ let currentRegion = '';
 
 function init() {
   renderCards(DATA);
-  // Coba juga fetch API di background, kalau berhasil update data
   tryFetchAPI();
 }
 
@@ -200,7 +199,6 @@ async function tryFetchAPI() {
     document.getElementById('info-bar').style.color = '#166534';
     renderCards(getActiveData());
   } catch(e) {
-    // Tetap pakai data bawaan, tidak apa-apa
   }
 }
 
